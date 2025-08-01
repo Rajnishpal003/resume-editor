@@ -6,6 +6,8 @@ import autoTable from "jspdf-autotable";
 import "./App.css";
 import Header from "./Header";
 
+const API_URL = import.meta.env.VITE_API_URL;
+
 function App() {
   const [resumeData, setResumeData] = useState({
     name: "",
@@ -16,6 +18,7 @@ function App() {
   });
 
   const [previewData, setPreviewData] = useState({});
+  const [loading, setLoading] = useState(false);
   const userId = "user123";
 
   const handleChange = (e) => {
@@ -23,27 +26,41 @@ function App() {
   };
 
   const enhanceResume = async () => {
-    const response = await axios.post("https://resume-editor-v8nl.onrender.com/ai-enhance", {
-      user_id: userId,
-      resume: resumeData,
-    });
-    setPreviewData(response.data.resume);
+    try {
+      setLoading(true);
+      const response = await axios.post(`${API_URL}/ai-enhance`, {
+        user_id: userId,
+        resume: resumeData,
+      });
+      setPreviewData(response.data.resume);
+    } catch (error) {
+      console.error("Enhance Error:", error);
+      alert("Failed to enhance resume.");
+    } finally {
+      setLoading(false);
+    }
   };
 
   const saveResume = async () => {
-    await axios.post("https://resume-editor-v8nl.onrender.com/save-resume", {
-      user_id: userId,
-      resume: resumeData,
-    });
-    alert("Resume saved!");
+    try {
+      await axios.post(`${API_URL}/save-resume`, {
+        user_id: userId,
+        resume: resumeData,
+      });
+      alert("Resume saved!");
+    } catch (error) {
+      console.error("Save Error:", error);
+      alert("Failed to save resume.");
+    }
   };
 
   const loadResume = async () => {
     try {
-      const response = await axios.get(`https://resume-editor-v8nl.onrender.com/get-resume/${userId}`);
+      const response = await axios.get(`${API_URL}/get-resume/${userId}`);
       setResumeData(response.data.resume);
       setPreviewData(response.data.resume);
-    } catch {
+    } catch (error) {
+      console.error("Load Error:", error);
       alert("No saved resume found.");
     }
   };
@@ -60,37 +77,42 @@ function App() {
     doc.save("resume.pdf");
   };
 
-  return (<div className="app">
-<Header/>
- 
-    <div className="container">
-      
-      <div className="form-section">
-        <h2>Resume Form</h2>
-        {Object.keys(resumeData).map((field) => (
-          <div key={field} className="form-group">
-            <label>{field}</label>
-            <textarea name={field} value={resumeData[field]} onChange={handleChange} />
+  return (
+    <div className="app">
+      <Header />
+      <div className="container">
+        <div className="form-section">
+          <h2>Resume Form</h2>
+          {Object.keys(resumeData).map((field) => (
+            <div key={field} className="form-group">
+              <label>{field}</label>
+              <textarea
+                name={field}
+                value={resumeData[field]}
+                onChange={handleChange}
+              />
+            </div>
+          ))}
+          <div className="buttons">
+            <button onClick={enhanceResume} disabled={loading}>
+              {loading ? "Enhancing..." : "AI Enhance"}
+            </button>
+            <button onClick={saveResume}>Save</button>
+            <button onClick={loadResume}>Load</button>
+            <button onClick={downloadPDF}>Download PDF</button>
           </div>
-        ))}
-        <div className="buttons">
-          <button onClick={enhanceResume}>AI Enhance</button>
-          <button onClick={saveResume}>Save</button>
-          <button onClick={loadResume}>Load</button>
-          <button onClick={downloadPDF}>Download PDF</button>
+        </div>
+
+        <div className="preview-section">
+          <h2>Resume Preview</h2>
+          {Object.entries(previewData).map(([key, value]) => (
+            <div key={key} className="preview-item">
+              <strong>{key}:</strong> {value}
+            </div>
+          ))}
         </div>
       </div>
-
-      <div className="preview-section">
-        <h2>Resume Preview</h2>
-        {Object.entries(previewData).map(([key, value]) => (
-          <div key={key} className="preview-item">
-            <strong>{key}:</strong> {value}
-          </div>
-        ))}
-      </div>
     </div>
-     </div>
   );
 }
 
