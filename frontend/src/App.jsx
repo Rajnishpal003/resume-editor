@@ -23,7 +23,7 @@ function App() {
   };
 
   const enhanceResume = async () => {
-    const response = await axios.post("http://localhost:8000/ai-enhance", {
+    const response = await axios.post("https://resume-editor-v8nl.onrender.com/ai-enhance", {
       user_id: userId,
       resume: resumeData,
     });
@@ -31,7 +31,7 @@ function App() {
   };
 
   const saveResume = async () => {
-    await axios.post("http://localhost:8000/save-resume", {
+    await axios.post("https://resume-editor-v8nl.onrender.com/save-resume", {
       user_id: userId,
       resume: resumeData,
     });
@@ -40,7 +40,7 @@ function App() {
 
   const loadResume = async () => {
     try {
-      const response = await axios.get(`http://localhost:8000/get-resume/${userId}`);
+      const response = await axios.get(`https://resume-editor-v8nl.onrender.com/get-resume/${userId}`);
       setResumeData(response.data.resume);
       setPreviewData(response.data.resume);
     } catch {
