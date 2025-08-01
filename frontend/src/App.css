@@ -162,11 +162,16 @@
 @media (max-width: 768px) {
   .resume-ui {
     flex-direction: column;
+    height: auto;               /* Remove fixed height */
+    overflow: auto;             /* Allow full page scroll */
   }
 
   .form-container,
   .preview-container {
-    padding: 20px;
-    flex: 1 1 100%;
+    flex: none;                 /* Prevent forced height */
+    height: auto;               /* Allow natural growth */
+    overflow: visible;          /* Disable inner scrollbars */
+    padding: 20px;              /* Keep padding clean */
   }
 }
+
