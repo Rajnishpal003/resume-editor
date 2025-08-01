@@ -9,10 +9,7 @@ app = FastAPI()
 # Enable CORS for frontend connection
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:5173",  # for local dev
-    "https://resume-editor-12sl2la8u-raj345pal-1442s-projects.vercel.app",  # for Vercel frontend
-    "https://resume-editor-hoanhre4p-raj345pal-1442s-projects.vercel.app",
-    ],
+    allow_origins=["*"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
