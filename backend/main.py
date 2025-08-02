@@ -96,7 +96,9 @@ Short Bio: <bio>
         return {"resume": enhanced_resume}
 
     except Exception as e:
-        print("❌ OpenAI Error:", str(e))
+        print("❌ AI enhancement failed. Falling back to basic logic.")
+        print("📜 Reason:", str(e))
+
         # Fallback logic
         enhanced_resume = {
             section: f"{content.strip()} ✅ (AI Enhanced)"
