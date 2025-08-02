@@ -17,7 +17,7 @@ app = FastAPI()
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["http://localhost:5173",  # local dev
-        "https://resume-editor-lac.vercel.app",  # ✅ your fixed production domain
+        "https://resume-editor-lac.vercel.app/",  # ✅ your fixed production domain
     ],
     allow_credentials=True,
     allow_methods=["*"],
