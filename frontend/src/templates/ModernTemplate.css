@@ -1,0 +1,43 @@
+.minimal-resume {
+  font-family: "Helvetica Neue", sans-serif;
+  max-width: 750px;
+  margin: auto;
+  background: #fff;
+  color: #222;
+  padding: 50px;
+  line-height: 1.6;
+}
+
+.top {
+  text-align: right;
+  margin-bottom: 40px;
+}
+
+.top h1 {
+  text-align: left;
+  font-size: 32px;
+  margin: 0;
+}
+
+.top h3 {
+  text-align: left;
+  font-weight: normal;
+  margin-top: 5px;
+  color: #555;
+}
+
+section {
+  margin-bottom: 35px;
+}
+
+section h2 {
+  font-size: 18px;
+  font-weight: bold;
+  border-bottom: 1px solid #eee;
+  padding-bottom: 5px;
+  margin-bottom: 10px;
+}
+
+section p {
+  margin-top: 5px;
+}
